@@ -90,11 +90,7 @@ public final class PrystFunctionRegistry {
      */
     public List<PrystFunction> getFunctions() {
         List<PrystFunction> result = new ArrayList<>(functionsObject.functions.values());
-        Collections.sort(result, new Comparator<PrystFunction>() {
-            public int compare(PrystFunction f1, PrystFunction f2) {
-                return f1.toString().compareTo(f2.toString());
-            }
-        });
+        result.sort(Comparator.comparing(PrystFunction::toString));
         return result;
     }
 

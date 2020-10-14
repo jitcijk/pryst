@@ -44,6 +44,23 @@
   <groupId>org.jitcijk</groupId>
   <artifactId>pryst-parent</artifactId>
   <version>0.0.1</version>
+  <licenses>
+    <license>
+      <name>MIT</name>
+      <url>https://opensource.org/licenses/MIT</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <name>cliid</name>
+      <email>me@cli.id</email>
+      <roles>
+        <role>Lead Developer</role>
+      </roles>
+      <timezone>Seoul</timezone>
+    </developer>
+  </developers>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <m2e.apt.activation>jdt_apt</m2e.apt.activation>
@@ -57,4 +74,11 @@
     <module>native</module>
     <module>component</module>
   </modules>
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub Packages</name>
+      <url>https://maven.pkg.github.com/jitcijk/pryst</url>
+    </repository>
+  </distributionManagement>
 </project>

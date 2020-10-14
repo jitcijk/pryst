@@ -94,10 +94,6 @@ import org.jitcijk.pryst.runtime.PrystNull;
 import org.jitcijk.pryst.runtime.PrystObject;
 
 /**
- * Pryst is a simple language to demonstrate and showcase features of Truffle. The implementation is as
- * simple and clean as possible in order to help understanding the ideas and concepts of Truffle.
- * The language has first class functions, and objects are key-value stores.
- * <p>
  * Pryst is statically typed, i.e., there are type names specified by the programmer. Pryst is
  * strongly typed, i.e., there is no automatic conversion between types. If an operation is not
  * available for the types encountered at run time, a type error is reported and execution is
@@ -107,16 +103,20 @@ import org.jitcijk.pryst.runtime.PrystObject;
  * <p>
  * <b>Types:</b>
  * <ul>
- * <li>Number: arbitrary precision integer numbers. The implementation uses the Java primitive type
+ * <li>int: arbitrary precision integer numbers. The implementation uses the Java primitive type
  * {@code long} to represent numbers that fit into the 64 bit range, and {@link PrystBigNumber} for
  * numbers that exceed the range. Using a primitive type such as {@code long} is crucial for
  * performance.
- * <li>Boolean: implemented as the Java primitive type {@code boolean}.
- * <li>String: implemented as the Java standard type {@link String}.
- * <li>Function: implementation type {@link PrystFunction}.
+ * <li>float: arbitrary precision integer numbers. The implementation uses the Java primitive type
+ * {@code long} to represent numbers that fit into the 64 bit range, and {@link PrystBigNumber} for
+ * numbers that exceed the range. Using a primitive type such as {@code long} is crucial for
+ * performance.
+ * <li>bool: implemented as the Java primitive type {@code boolean}.
+ * <li>str: implemented as the Java standard type {@link String}.
+ * <li>func: implementation type {@link PrystFunction}.
  * <li>Object: efficient implementation using the object model provided by Truffle. The
  * implementation type of objects is a subclass of {@link DynamicObject}.
- * <li>Null (with only one value {@code null}): implemented as the singleton
+ * <li>null (with only one value {@code null}): implemented as the singleton
  * {@link PrystNull#SINGLETON}.
  * </ul>
  * The class {@link PrystTypes} lists these types for the Truffle DSL, i.e., for type-specialized
@@ -265,39 +265,34 @@ public final class PrystLanguage extends TruffleLanguage<PrystContext> {
     @Override
     public Iterable<Scope> findLocalScopes(PrystContext context, Node node, Frame frame) {
         final PrystLexicalScope scope = PrystLexicalScope.createScope(node);
-        return new Iterable<Scope>() {
+        return () -> new Iterator<Scope>() {
+            private PrystLexicalScope previousScope;
+            private PrystLexicalScope nextScope = scope;
+
             @Override
-            public Iterator<Scope> iterator() {
-                return new Iterator<Scope>() {
-                    private PrystLexicalScope previousScope;
-                    private PrystLexicalScope nextScope = scope;
+            public boolean hasNext() {
+                if (nextScope == null) {
+                    nextScope = previousScope.findParent();
+                }
+                return nextScope != null;
+            }
 
-                    @Override
-                    public boolean hasNext() {
-                        if (nextScope == null) {
-                            nextScope = previousScope.findParent();
-                        }
-                        return nextScope != null;
-                    }
+            @Override
+            public Scope next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                Object functionObject = findFunctionObject();
+                Scope vscope = Scope.newBuilder(nextScope.getName(), nextScope.getVariables(frame)).node(nextScope.getNode()).arguments(nextScope.getArguments(frame)).rootInstance(
+                                functionObject).build();
+                previousScope = nextScope;
+                nextScope = null;
+                return vscope;
+            }
 
-                    @Override
-                    public Scope next() {
-                        if (!hasNext()) {
-                            throw new NoSuchElementException();
-                        }
-                        Object functionObject = findFunctionObject();
-                        Scope vscope = Scope.newBuilder(nextScope.getName(), nextScope.getVariables(frame)).node(nextScope.getNode()).arguments(nextScope.getArguments(frame)).rootInstance(
-                                        functionObject).build();
-                        previousScope = nextScope;
-                        nextScope = null;
-                        return vscope;
-                    }
-
-                    private Object findFunctionObject() {
-                        String name = node.getRootNode().getName();
-                        return context.getFunctionRegistry().getFunction(name);
-                    }
-                };
+            private Object findFunctionObject() {
+                String name = node.getRootNode().getName();
+                return context.getFunctionRegistry().getFunction(name);
             }
         };
     }
