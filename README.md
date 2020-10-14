@@ -8,7 +8,7 @@
     <img src="https://travis-ci.org/jitcijk/pryst.svg?branch=master" />
   </a>
   <a href="https://github.com/jitcijk/pryst/blob/master/LICENSE">
-    <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-yellow.svg" target="_blank" />
+    <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg" target="_blank" />
   </a>
   <a href="https://app.codacy.com/gh/jitcijk/pryst/dashboard">
     <img src="https://app.codacy.com/project/badge/Grade/724be582a55e464d97018c11df1bebd2" />
