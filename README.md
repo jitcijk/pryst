@@ -132,7 +132,9 @@ Follow the instructions made by [Baeldung](https://www.baeldung.com/install-mave
 ### Build
 
 `git clone https://github.com/jitcijk/pryst.git`
+
 `cd pryst`
+
 `mvn package`
 
 ## Usage
