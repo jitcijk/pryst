@@ -41,7 +41,7 @@ import org.jitcijk.pryst.runtime.PrystNull;
 import org.jitcijk.pryst.runtime.PrystUndefinedNameException;
 
 /**
- * Built-in function to create a new object. Objects in SL are simply made up of name/value pairs.
+ * Built-in function to create a new object. Objects in Pryst are simply made up of name/value pairs.
  */
 @NodeInfo(shortName = "new")
 public abstract class PrystNewObjectBuiltin extends PrystBuiltinNode {

@@ -37,8 +37,8 @@ import com.oracle.truffle.api.library.ExportMessage;
 import org.jitcijk.pryst.PrystLanguage;
 
 /**
- * The builtin type definitions for SimpleLanguage. SL has no custom types, so it is not possible
- * for a guest program to create new instances of SLType.
+ * The builtin type definitions for Pryst. Pryst has no custom types, so it is not possible
+ * for a guest program to create new instances of PrystType.
  * <p>
  * The isInstance type checks are declared using an functional interface and are expressed using the
  * interoperability libraries. The advantage of this is type checks automatically work for foreign
@@ -48,7 +48,7 @@ import org.jitcijk.pryst.PrystLanguage;
  * {@link InteropLibrary#isMetaInstance(Object, Object)}. The latter allows other languages and
  * tools to perform type checks using types of simple language.
  * <p>
- * In order to assign types to guest language values, SL values implement
+ * In order to assign types to guest language values, Pryst values implement
  * {@link InteropLibrary#getMetaObject(Object)}. The interop contracts for primitive values cannot
  * be overriden, so in order to assign meta-objects to primitive values, the primitive values are
  * assigned using language views. See {@link PrystLanguage#getLanguageView}.
@@ -60,7 +60,7 @@ public final class PrystType implements TruffleObject {
     /*
      * These are the sets of builtin types in simple languages. In case of simple language the types
      * nicely match those of the types in InteropLibrary. This might not be the case and more
-     * additional checks need to be performed (similar to number checking for SLBigNumber).
+     * additional checks need to be performed (similar to number checking for PrystBigNumber).
      */
     public static final PrystType NUMBER = new PrystType("Number", (l, v) -> l.fitsInLong(v) || v instanceof PrystBigNumber);
     public static final PrystType NULL = new PrystType("NULL", (l, v) -> l.isNull(v));
@@ -72,7 +72,7 @@ public final class PrystType implements TruffleObject {
     /*
      * This array is used when all types need to be checked in a certain order. While most interop
      * types like number or string are exclusive, others traits like members might not be. For
-     * example, an object might be a function. In SimpleLanguage we decided to make functions,
+     * example, an object might be a function. In Pryst we decided to make functions,
      * functions and not objects.
      */
     @CompilationFinal(dimensions = 1) public static final PrystType[] PRECEDENCE = new PrystType[]{NULL, NUMBER, STRING, BOOLEAN, FUNCTION, OBJECT};
@@ -81,7 +81,7 @@ public final class PrystType implements TruffleObject {
     private final TypeCheck isInstance;
 
     /*
-     * We don't allow dynamic instances of SLType. Real languages might want to expose this for
+     * We don't allow dynamic instances of PrystType. Real languages might want to expose this for
      * types that are user defined.
      */
     private PrystType(String name, TypeCheck isInstance) {
@@ -109,7 +109,7 @@ public final class PrystType implements TruffleObject {
     }
 
     /*
-     * All SLTypes are declared as interop meta-objects. Other example for meta-objects are Java
+     * All PrystTypes are declared as interop meta-objects. Other example for meta-objects are Java
      * classes, or JavaScript prototypes.
      */
     @ExportMessage
@@ -118,7 +118,7 @@ public final class PrystType implements TruffleObject {
     }
 
     /*
-     * SL does not have the notion of a qualified or simple name, so we return the same type name
+     * Pryst does not have the notion of a qualified or simple name, so we return the same type name
      * for both.
      */
     @ExportMessage(name = "getMetaQualifiedName")
@@ -139,8 +139,8 @@ public final class PrystType implements TruffleObject {
 
     /*
      * The interop message isMetaInstance might be used from other languages or by the {@link
-     * SLIsInstanceBuiltin isInstance} builtin. It checks whether a given value, which might be a
-     * primitive, foreign or SL value is of a given SL type. This allows other languages to make
+     * PrystIsInstanceBuiltin isInstance} builtin. It checks whether a given value, which might be a
+     * primitive, foreign or Pryst value is of a given Pryst type. This allows other languages to make
      * their instanceOf interopable with foreign values.
      */
     @ExportMessage
@@ -169,7 +169,7 @@ public final class PrystType implements TruffleObject {
 
     /*
      * A convenience interface for type checks. Alternatively this could have been solved using
-     * subtypes of SLType.
+     * subtypes of PrystType.
      */
     @FunctionalInterface
     interface TypeCheck {

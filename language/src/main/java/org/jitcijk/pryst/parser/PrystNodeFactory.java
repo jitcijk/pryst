@@ -79,8 +79,8 @@ import org.jitcijk.pryst.nodes.local.PrystWriteLocalVariableNodeGen;
 import org.jitcijk.pryst.nodes.util.PrystUnboxNodeGen;
 
 /**
- * Helper class used by the SL {@link Parser} to create nodes. The code is factored out of the
- * automatically generated parser to keep the attributed grammar of SL small.
+ * Helper class used by the Pryst {@link Parser} to create nodes. The code is factored out of the
+ * automatically generated parser to keep the attributed grammar of Pryst small.
  */
 public class PrystNodeFactory {
 

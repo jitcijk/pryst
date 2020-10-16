@@ -32,7 +32,7 @@ import com.oracle.truffle.api.utilities.TriState;
 import org.jitcijk.pryst.PrystLanguage;
 
 /**
- * The SL type for a {@code null} (i.e., undefined) value. In Truffle, it is generally discouraged
+ * The Pryst type for a {@code null} (i.e., undefined) value. In Truffle, it is generally discouraged
  * to use the Java {@code null} value to represent the guest language {@code null} value. It is not
  * possible to specialize on Java {@code null} (since you cannot ask it for the Java class), and
  * there is always the danger of a spurious {@link NullPointerException}. Representing the guest
@@ -44,7 +44,7 @@ import org.jitcijk.pryst.PrystLanguage;
 public final class PrystNull implements TruffleObject {
 
     /**
-     * The canonical value to represent {@code null} in SL.
+     * The canonical value to represent {@code null} in Pryst.
      */
     public static final PrystNull SINGLETON = new PrystNull();
     private static final int IDENTITY_HASH = System.identityHashCode(SINGLETON);
@@ -58,7 +58,7 @@ public final class PrystNull implements TruffleObject {
 
     /**
      * This method is, e.g., called when using the {@code null} value in a string concatenation. So
-     * changing it has an effect on SL programs.
+     * changing it has an effect on Pryst programs.
      */
     @Override
     public String toString() {
@@ -96,7 +96,7 @@ public final class PrystNull implements TruffleObject {
     @ExportMessage
     static TriState isIdenticalOrUndefined(@SuppressWarnings("unused") PrystNull receiver, Object other) {
         /*
-         * SLNull values are identical to other SLNull values.
+         * PrystNull values are identical to other PrystNull values.
          */
         return TriState.valueOf(PrystNull.SINGLETON == other);
     }

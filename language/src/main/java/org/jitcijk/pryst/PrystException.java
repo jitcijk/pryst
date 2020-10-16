@@ -36,8 +36,8 @@ import org.jitcijk.pryst.runtime.PrystContext;
 import org.jitcijk.pryst.runtime.PrystLanguageView;
 
 /**
- * SL does not need a sophisticated error checking and reporting mechanism, so all unexpected
- * conditions just abort execution. This exception class is used when we abort from within the SL
+ * Pryst does not need a sophisticated error checking and reporting mechanism, so all unexpected
+ * conditions just abort execution. This exception class is used when we abort from within the Pryst
  * implementation.
  */
 public class PrystException extends RuntimeException implements TruffleException {
@@ -64,7 +64,7 @@ public class PrystException extends RuntimeException implements TruffleException
     }
 
     /**
-     * Provides a user-readable message for run-time type errors. SL is strongly typed, i.e., there
+     * Provides a user-readable message for run-time type errors. Pryst is strongly typed, i.e., there
      * are no automatic type conversions of values.
      */
     @TruffleBoundary

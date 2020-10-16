@@ -67,7 +67,7 @@ import org.jitcijk.pryst.nodes.PrystRootNode;
 import org.jitcijk.pryst.nodes.local.PrystReadArgumentNode;
 
 /**
- * The run-time state of SL during execution. The context is created by the {@link PrystLanguage}. It
+ * The run-time state of Pryst during execution. The context is created by the {@link PrystLanguage}. It
  * is used, for example, by {@link PrystBuiltinNode#getContext() builtin functions}.
  * <p>
  * It would be an error to have two different context instances during the execution of one script.
@@ -167,7 +167,7 @@ public final class PrystContext {
         PrystExpressionNode[] argumentNodes = new PrystExpressionNode[argumentCount];
         /*
          * Builtin functions are like normal functions, i.e., the arguments are passed in as an
-         * Object[] array encapsulated in SLArguments. A SLReadArgumentNode extracts a parameter
+         * Object[] array encapsulated in PrystArguments. A PrystReadArgumentNode extracts a parameter
          * from this array.
          */
         for (int i = 0; i < argumentCount; i++) {

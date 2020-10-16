@@ -49,9 +49,9 @@ import org.jitcijk.pryst.PrystLanguage;
 import org.jitcijk.pryst.nodes.PrystUndefinedFunctionRootNode;
 
 /**
- * Represents a SL function. On the Truffle level, a callable element is represented by a
+ * Represents a Pryst function. On the Truffle level, a callable element is represented by a
  * {@link RootCallTarget call target}. This class encapsulates a call target, and adds version
- * support: functions in SL can be redefined, i.e. changed at run time. When a function is
+ * support: functions in Pryst can be redefined, i.e. changed at run time. When a function is
  * redefined, the call target managed by this function object is changed (and {@link #callTarget} is
  * therefore not a final field).
  * <p>
@@ -116,7 +116,7 @@ public final class PrystFunction implements TruffleObject {
 
     /**
      * This method is, e.g., called when using a function literal in a string concatenation. So
-     * changing it has an effect on SL programs.
+     * changing it has an effect on Pryst programs.
      */
     @Override
     public String toString() {
@@ -173,7 +173,7 @@ public final class PrystFunction implements TruffleObject {
         @Specialization
         static TriState doPrystFunction(PrystFunction receiver, PrystFunction other) {
             /*
-             * SLFunctions are potentially identical to other SLFunctions.
+             * PrystFunctions are potentially identical to other PrystFunctions.
              */
             return receiver == other ? TriState.TRUE : TriState.FALSE;
         }
@@ -215,13 +215,13 @@ public final class PrystFunction implements TruffleObject {
          * Inline cached specialization of the dispatch.
          *
          * <p>
-         * Since SL is a quite simple language, the benefit of the inline cache seems small: after
+         * Since Pryst is a quite simple language, the benefit of the inline cache seems small: after
          * checking that the actual function to be executed is the same as the cachedFuntion, we can
          * safely execute the cached call target. You can reasonably argue that caching the call
          * target is overkill, since we could just retrieve it via {@code function.getCallTarget()}.
          * However, caching the call target and using a {@link DirectCallNode} allows Truffle to
          * perform method inlining. In addition, in a more complex language the lookup of the call
-         * target is usually much more complicated than in SL.
+         * target is usually much more complicated than in Pryst.
          * </p>
          *
          * <p>
@@ -234,8 +234,8 @@ public final class PrystFunction implements TruffleObject {
          * </p>
          * <p>
          * {@code assumptions = "callTargetStable"} Support for function redefinition: When a
-         * function is redefined, the call target maintained by the SLFunction object is changed. To
-         * avoid a check for that, we use an Assumption that is invalidated by the SLFunction when
+         * function is redefined, the call target maintained by the PrystFunction object is changed. To
+         * avoid a check for that, we use an Assumption that is invalidated by the PrystFunction when
          * the change is performed. Since checking an assumption is a no-op in compiled code, the
          * assumption check performed by the DSL does not add any overhead during optimized
          * execution.
@@ -274,7 +274,7 @@ public final class PrystFunction implements TruffleObject {
         protected static Object doIndirect(PrystFunction function, Object[] arguments,
                                            @Cached IndirectCallNode callNode) {
             /*
-             * SL has a quite simple call lookup: just ask the function for the current call target,
+             * Pryst has a quite simple call lookup: just ask the function for the current call target,
              * and call it.
              */
             return callNode.call(function.getCallTarget(), arguments);

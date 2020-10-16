@@ -123,7 +123,7 @@ function function* EOF
 
 function
 :
-'function'
+'func'
 IDENTIFIER
 s='('
                                                 { factory.startFunction($IDENTIFIER, $s); }

@@ -40,7 +40,7 @@ import org.jitcijk.pryst.PrystLanguage;
  * Language views are needed in order to allow tools to have a consistent perspective on primitive
  * or foreign values from the perspective of this language. The interop interpretation for primitive
  * values like Integer or String is not language specific by default. Therefore this language view
- * calls routines to print such values the SimpleLanguage way. It is important to note that language
+ * calls routines to print such values the Pryst way. It is important to note that language
  * views are not passed as normal values through the interpreter execution. It is designed only as a
  * temporary helper for tools.
  * <p>
@@ -161,7 +161,7 @@ public final class PrystLanguageView implements TruffleObject {
 
     /**
      * Returns a language view for primitive or foreign values. Returns the same value for values
-     * that are already originating from SimpleLanguage. This is useful to view values from the
+     * that are already originating from Pryst. This is useful to view values from the
      * perspective of simple language in slow paths, for example, printing values in error messages.
      */
     @TruffleBoundary

@@ -207,7 +207,7 @@ public final class PrystLanguage extends TruffleLanguage<PrystContext> {
             functions = PrystParser.parsePryst(this, source);
         } else {
             StringBuilder sb = new StringBuilder();
-            sb.append("function main(");
+            sb.append("func main(");
             String sep = "";
             for (String argumentName : request.getArgumentNames()) {
                 sb.append(sep);

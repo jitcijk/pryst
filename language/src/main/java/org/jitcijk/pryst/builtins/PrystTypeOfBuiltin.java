@@ -39,7 +39,7 @@ import org.jitcijk.pryst.runtime.PrystType;
 public abstract class PrystTypeOfBuiltin extends PrystBuiltinNode {
 
     /*
-     * This returns the SL type for a particular operand value.
+     * This returns the Pryst type for a particular operand value.
      */
     @Specialization(limit = "3")
     @ExplodeLoop
