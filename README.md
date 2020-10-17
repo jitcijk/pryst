@@ -20,7 +20,7 @@
 
 ## Intro
 
-Pryst is an explicit, strong, static typed language with a beautiful C-style syntax.
+Pryst is an explicit, kinda-strong, static typed language with a beautiful C-style syntax.
 
 It features variables, types, if statements, switch statements, imports, classes and more! 
 
@@ -47,15 +47,14 @@ And most of all, Pryst is `currently in development` so there will be new featur
 ## Example Code
 
 ```
-function printHello(str String)
+int main(str argv[])
 {
-  println("Hello " + String + "!");
-  print("Hooray!\n");
-}
-function main()
-{
-  str myString = "cliid";
-  printHello(myString);
+  if(argv.size() > 1){
+    print("Hello" + argv[1] + "World!");
+  }
+  else {
+    print("Hello World!");
+  }
 }
 ```
 
@@ -151,28 +150,28 @@ To run with native build:
 
 ## Constants //TODO
 
-Constants have the same traits as variables, except that they start with `let` and are immutable. Once declared, reassigning a constant will produce a runtime error. Even data structures are locked into immutability. Elements of an Array or Dictionary can't be added, updated or removed.
+Constants have the same traits as variables, except that they start with `const` and are immutable. Once declared, reassigning a constant will produce a runtime error. Even data structures are locked into immutability. Elements of an Array or Dictionary can't be added, updated or removed.
 
 ```
-const string name = "Ben";
+const str name = "Ben";
 name = "John"; // runtime error
 ```
 
 ### Compile-time Constants //TODO
 
-In Pryst, we have compile time constants named as const_cpt just works like C++'s constexpr.
+In Pryst, we have compile time constants named as `compile` just works like C++'s constexpr.
 
 For example,
 
 ```
-const_cpt float PI = 3.141592;
-print(PI.to_string());
+compile float PI = 3.141592;
+print(PI.toString()); // "3.141592"
 ```
 
 And, yes, this won't work.
 
 ```
-const_cpt int ANY_NUM = 13245453;
+compile int ANY_NUM = 13245453;
 ANY_NUM = 1; // Compile Time Error
 ```
 
@@ -184,16 +183,15 @@ For example:
 ```
 int x; // OK
 float var_whatever; // OK
-double VaR_WHA332; // OK
 bool _isOnClick; // OK
-str[3] 3numbers; // NO
+str 3numbers[3]; // NO
 ```
 
 ### Int
 
-Unsigned integer variables in Pryst start with the keyword `int`.
+Unsigned long integer variables in Pryst start with the keyword `int`.
 
-```swift
+```
 int age = 40;
 age = 41;
 ```
@@ -201,9 +199,8 @@ age = 41;
 ### Float
 
 Double precision floating point variables in Pryst start with the keyword `float`.
-No `double`.
 
-```swift
+```
 float height = 183.82;
 height = 177.13;
 ```
@@ -212,7 +209,7 @@ height = 177.13;
 
 Boolean variables in Pryst start with the keyword `bool`.
 
-```swift
+```
 bool x = true;
 x = false;
 if(x)
@@ -229,26 +226,17 @@ else
 
 String variables in Pryst start with the keyword `str`.
 
-```swift
-string str = "Hello";
+```
+str str = "Hello";
 print(str);
-```
-
-### Character //TODO
-
-Characters in Pryst start with the keyword `char`.
-
-```
-char ch = 'A';
-print(ch.toString()); // It prints "A"
 ```
 
 ### Array //TODO
 
 Static size arrays in Pryst look like this: `type_name[array_size]`.
 
-```swift
-string[3] str_3_elems = ["Jack", "The", "Pillow"];
+```
+string str_3_elems[3] = ["Jack", "The", "Pillow"];
 print(str_3_elems[1].index(1)); // It basically means the second character of the second elem of the string array.
 // It prints 'h'
 string[4][4] str_4by4_elems = [["A", "B", "C", "D"], ["E", "F", "G", "H"], ["I", "J", "K", "L"], ["M", "N", "O", "P"]];
@@ -256,12 +244,12 @@ print(str_4by4_elems[2][1]);
 // It prints "J"
 ```
 
-### Dynamic Array //TODO
+### Vector //TODO
 
-Dynamic size arrays in Pryst look like this: `type_name[dynamic]`.
+Vectors in Pryst look like this: `type_name[dynamic]`.
 
 ```swift
-string str_elems[dynamic] = ["Jack", "The", "Pillow"];
+str str_elems[dynamic] = ["Jack", "The", "Pillow"];
 print(str_elems[1].index(1)); // It basically means the second character of the second elem of the string vector.
 // It prints "h"
 str_elems = ["A", "B", "C", "D"];
@@ -400,24 +388,23 @@ str john = names[0];
 Individual array elements can be accessed via subscripting with a 0-based index:
 
 ```
-str names[] = ["Kirk", "Bones", "Spock"]
-str first = names[0] // "Kirk"
-str last = names[-1] // "Spock"
+str names[] = ["Kirk", "Bones", "Spock"];
+str first = names[0]; // "Kirk"
+str last = names[-1]; // "Spock"
 ```
 
 In the same style, an index can be used to check if it exists. It will return `null` if it doesn't:
 
 ```
-if names[10]
+if(names[10].exists())
   // handle it
-end
 ```
 
 Individual elements can be reassigned on mutable arrays:
 
 ```
-int numbers[] = [5, 8, 10, 15]
-numbers[1] = 7
+int numbers[] = [5, 8, 10, 15];
+numbers[1] = 7;
 ```
 
 Arrays can be compared with the `==` and `!=` operators, which will check the position and value of every element of both arrays. Equal arrays should have the same exact values in the same position.
@@ -425,7 +412,7 @@ Arrays can be compared with the `==` and `!=` operators, which will check the po
 They can also be combined with the `+` operator, which adds the element of the right side to the array on the left side.
 
 ```
-let concat = ["an", "array"] + ["and", "another"]
+str concat[] = ["an", "array"] + ["and", "another"]
 // ["an", "array", "and", "another"]
 ```
 
