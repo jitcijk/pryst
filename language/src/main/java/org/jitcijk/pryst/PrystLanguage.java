@@ -103,20 +103,18 @@ import org.jitcijk.pryst.runtime.PrystObject;
  * <p>
  * <b>Types:</b>
  * <ul>
- * <li>int: arbitrary precision integer numbers. The implementation uses the Java primitive type
+ * <li>Integer: arbitrary precision integer numbers. The implementation uses the Java primitive type
  * {@code long} to represent numbers that fit into the 64 bit range, and {@link PrystBigNumber} for
  * numbers that exceed the range. Using a primitive type such as {@code long} is crucial for
  * performance.
- * <li>float: arbitrary precision integer numbers. The implementation uses the Java primitive type
- * {@code long} to represent numbers that fit into the 64 bit range, and {@link PrystBigNumber} for
- * numbers that exceed the range. Using a primitive type such as {@code long} is crucial for
- * performance.
- * <li>bool: implemented as the Java primitive type {@code boolean}.
- * <li>str: implemented as the Java standard type {@link String}.
- * <li>func: implementation type {@link PrystFunction}.
+ * <li>Float: floating point numbers. The implementation uses the Java primitive type
+ * {@code double} to represent numbers that fit into the 16 digit precision.
+ * <li>Boolean: implemented as the Java primitive type {@code boolean}.
+ * <li>String: implemented as the Java standard type {@link String}.
+ * <li>Function: implementation type {@link PrystFunction}.
  * <li>Object: efficient implementation using the object model provided by Truffle. The
  * implementation type of objects is a subclass of {@link DynamicObject}.
- * <li>null (with only one value {@code null}): implemented as the singleton
+ * <li>Null (with only one value {@code null}): implemented as the singleton
  * {@link PrystNull#SINGLETON}.
  * </ul>
  * The class {@link PrystTypes} lists these types for the Truffle DSL, i.e., for type-specialized
@@ -176,7 +174,7 @@ import org.jitcijk.pryst.runtime.PrystObject;
  */
 @TruffleLanguage.Registration(id = PrystLanguage.ID, name = "Pryst", defaultMimeType = PrystLanguage.MIME_TYPE, characterMimeTypes = PrystLanguage.MIME_TYPE, contextPolicy = ContextPolicy.SHARED, fileTypeDetectors = PrystFileDetector.class)
 @ProvidedTags({StandardTags.CallTag.class, StandardTags.StatementTag.class, StandardTags.RootTag.class, StandardTags.RootBodyTag.class, StandardTags.ExpressionTag.class, DebuggerTags.AlwaysHalt.class,
-                StandardTags.ReadVariableTag.class, StandardTags.WriteVariableTag.class})
+        StandardTags.ReadVariableTag.class, StandardTags.WriteVariableTag.class})
 public final class PrystLanguage extends TruffleLanguage<PrystContext> {
     public static volatile int counter;
 
@@ -207,7 +205,7 @@ public final class PrystLanguage extends TruffleLanguage<PrystContext> {
             functions = PrystParser.parsePryst(this, source);
         } else {
             StringBuilder sb = new StringBuilder();
-            sb.append("func main(");
+            sb.append("def main(");
             String sep = "";
             for (String argumentName : request.getArgumentNames()) {
                 sb.append(sep);
@@ -284,7 +282,7 @@ public final class PrystLanguage extends TruffleLanguage<PrystContext> {
                 }
                 Object functionObject = findFunctionObject();
                 Scope vscope = Scope.newBuilder(nextScope.getName(), nextScope.getVariables(frame)).node(nextScope.getNode()).arguments(nextScope.getArguments(frame)).rootInstance(
-                                functionObject).build();
+                        functionObject).build();
                 previousScope = nextScope;
                 nextScope = null;
                 return vscope;

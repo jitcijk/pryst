@@ -144,7 +144,7 @@ public class PrystNodeFactory {
         startBlock();
     }
 
-    public void addFormalParameter(Token nameToken) {
+    public void addFormalParameter(Token nameToken, Token typeToken) {
         /*
          * Method parameters are assigned to local variables at the beginning of the method. This
          * ensures that accesses to parameters are specialized the same way as local variables are
@@ -258,11 +258,11 @@ public class PrystNodeFactory {
     /**
      * Returns an {@link PrystWhileNode} for the given parameters.
      *
-     * @param whileToken The token containing the while node's info
+     * @param whileToken    The token containing the while node's info
      * @param conditionNode The conditional node for this while loop
-     * @param bodyNode The body of the while loop
+     * @param bodyNode      The body of the while loop
      * @return A PrystWhileNode built using the given parameters. null if either conditionNode or
-     *         bodyNode is null.
+     * bodyNode is null.
      */
     public PrystStatementNode createWhile(Token whileToken, PrystExpressionNode conditionNode, PrystStatementNode bodyNode) {
         if (conditionNode == null || bodyNode == null) {
@@ -280,12 +280,12 @@ public class PrystNodeFactory {
     /**
      * Returns an {@link PrystIfNode} for the given parameters.
      *
-     * @param ifToken The token containing the if node's info
+     * @param ifToken       The token containing the if node's info
      * @param conditionNode The condition node of this if statement
-     * @param thenPartNode The then part of the if
-     * @param elsePartNode The else part of the if (null if no else part)
+     * @param thenPartNode  The then part of the if
+     * @param elsePartNode  The else part of the if (null if no else part)
      * @return An PrystIfNode for the given parameters. null if either conditionNode or thenPartNode is
-     *         null.
+     * null.
      */
     public PrystStatementNode createIf(Token ifToken, PrystExpressionNode conditionNode, PrystStatementNode thenPartNode, PrystStatementNode elsePartNode) {
         if (conditionNode == null || thenPartNode == null) {
@@ -303,7 +303,7 @@ public class PrystNodeFactory {
     /**
      * Returns an {@link PrystReturnNode} for the given parameters.
      *
-     * @param t The token containing the return node's info
+     * @param t         The token containing the return node's info
      * @param valueNode The value of the return (null if not returning a value)
      * @return An PrystReturnNode for the given parameters.
      */
@@ -319,11 +319,11 @@ public class PrystNodeFactory {
      * Returns the corresponding subclass of {@link PrystExpressionNode} for binary expressions. </br>
      * These nodes are currently not instrumented.
      *
-     * @param opToken The operator of the binary expression
-     * @param leftNode The left node of the expression
+     * @param opToken   The operator of the binary expression
+     * @param leftNode  The left node of the expression
      * @param rightNode The right node of the expression
      * @return A subclass of PrystExpressionNode using the given parameters based on the given opToken.
-     *         null if either leftNode or rightNode is null.
+     * null if either leftNode or rightNode is null.
      */
     public PrystExpressionNode createBinary(Token opToken, PrystExpressionNode leftNode, PrystExpressionNode rightNode) {
         if (leftNode == null || rightNode == null) {
@@ -385,11 +385,11 @@ public class PrystNodeFactory {
     /**
      * Returns an {@link PrystInvokeNode} for the given parameters.
      *
-     * @param functionNode The function being called
+     * @param functionNode   The function being called
      * @param parameterNodes The parameters of the function call
-     * @param finalToken A token used to determine the end of the sourceSelection for this call
+     * @param finalToken     A token used to determine the end of the sourceSelection for this call
      * @return An PrystInvokeNode for the given parameters. null if functionNode or any of the
-     *         parameterNodes are null.
+     * parameterNodes are null.
      */
     public PrystExpressionNode createCall(PrystExpressionNode functionNode, List<PrystExpressionNode> parameterNodes, Token finalToken) {
         if (functionNode == null || containsNull(parameterNodes)) {
@@ -409,7 +409,7 @@ public class PrystNodeFactory {
     /**
      * Returns an {@link PrystWriteLocalVariableNode} for the given parameters.
      *
-     * @param nameNode The name of the variable being assigned
+     * @param nameNode  The name of the variable being assigned
      * @param valueNode The value to be assigned
      * @return An PrystExpressionNode for the given parameters. null if nameNode or valueNode is null.
      */
@@ -420,8 +420,8 @@ public class PrystNodeFactory {
     /**
      * Returns an {@link PrystWriteLocalVariableNode} for the given parameters.
      *
-     * @param nameNode The name of the variable being assigned
-     * @param valueNode The value to be assigned
+     * @param nameNode      The name of the variable being assigned
+     * @param valueNode     The value to be assigned
      * @param argumentIndex null or index of the argument the assignment is assigning
      * @return An PrystExpressionNode for the given parameters. null if nameNode or valueNode is null.
      */
@@ -432,9 +432,9 @@ public class PrystNodeFactory {
 
         String name = ((PrystStringLiteralNode) nameNode).executeGeneric(null);
         FrameSlot frameSlot = frameDescriptor.findOrAddFrameSlot(
-                        name,
-                        argumentIndex,
-                        FrameSlotKind.Illegal);
+                name,
+                argumentIndex,
+                FrameSlotKind.Illegal);
         lexicalScope.locals.put(name, frameSlot);
         final PrystExpressionNode result = PrystWriteLocalVariableNodeGen.create(valueNode, frameSlot, nameNode);
 
@@ -455,11 +455,11 @@ public class PrystNodeFactory {
      *
      * @param nameNode The name of the variable/function being read
      * @return either:
-     *         <ul>
-     *         <li>A PrystReadLocalVariableNode representing the local variable being read.</li>
-     *         <li>A PrystFunctionLiteralNode representing the function definition.</li>
-     *         <li>null if nameNode is null.</li>
-     *         </ul>
+     * <ul>
+     * <li>A PrystReadLocalVariableNode representing the local variable being read.</li>
+     * <li>A PrystFunctionLiteralNode representing the function definition.</li>
+     * <li>null if nameNode is null.</li>
+     * </ul>
      */
     public PrystExpressionNode createRead(PrystExpressionNode nameNode) {
         if (nameNode == null) {
@@ -495,7 +495,7 @@ public class PrystNodeFactory {
         return result;
     }
 
-    public PrystExpressionNode createNumericLiteral(Token literalToken) {
+    public PrystExpressionNode createIntegerLiteral(Token literalToken) {
         PrystExpressionNode result;
         try {
             /* Try if the literal is small enough to fit into a long value. */
@@ -519,13 +519,23 @@ public class PrystNodeFactory {
         return result;
     }
 
+    public PrystExpressionNode createType(Token literalToken) {
+        /* Remove the trailing and ending " */
+        String literal = literalToken.getText();
+
+        final PrystStringLiteralNode result = new PrystStringLiteralNode(literal.intern());
+        srcFromToken(result, literalToken);
+        result.addExpressionTag();
+        return result;
+    }
+
     /**
      * Returns an {@link PrystReadPropertyNode} for the given parameters.
      *
      * @param receiverNode The receiver of the property access
-     * @param nameNode The name of the property being accessed
+     * @param nameNode     The name of the property being accessed
      * @return An PrystExpressionNode for the given parameters. null if receiverNode or nameNode is
-     *         null.
+     * null.
      */
     public PrystExpressionNode createReadProperty(PrystExpressionNode receiverNode, PrystExpressionNode nameNode) {
         if (receiverNode == null || nameNode == null) {
@@ -546,10 +556,10 @@ public class PrystNodeFactory {
      * Returns an {@link PrystWritePropertyNode} for the given parameters.
      *
      * @param receiverNode The receiver object of the property assignment
-     * @param nameNode The name of the property being assigned
-     * @param valueNode The value to be assigned
+     * @param nameNode     The name of the property being assigned
+     * @param valueNode    The value to be assigned
      * @return An PrystExpressionNode for the given parameters. null if receiverNode, nameNode or
-     *         valueNode is null.
+     * valueNode is null.
      */
     public PrystExpressionNode createWriteProperty(PrystExpressionNode receiverNode, PrystExpressionNode nameNode, PrystExpressionNode valueNode) {
         if (receiverNode == null || nameNode == null || valueNode == null) {
