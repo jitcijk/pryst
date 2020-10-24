@@ -13,9 +13,6 @@
   <a href="https://app.codacy.com/gh/jitcijk/pryst/dashboard">
     <img src="https://app.codacy.com/project/badge/Grade/724be582a55e464d97018c11df1bebd2" />
   </a>
-  <a href="https://codecov.io/gh/jitcijk/pryst">
-    <img src="https://codecov.io/gh/jitcijk/pryst/branch/master/graph/badge.svg" />
-  </a>
 </p>
 
 ## Intro
